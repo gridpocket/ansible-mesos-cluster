@@ -1,6 +1,12 @@
 ---
-- name: install mesosphere (mesos + zookeeper + marathon)
-  apt: name=mesosphere state=present
+- name: install mesos + zookeeper
+  apt: name=mesos state=latest
+
+- name: install marathon
+  apt: name=marathon state=latest
+
+- name: install chronos
+  apt: name=chronos state=latest
 
 - name: copy zookeeper mesos configuration file
   shell: cp /tmp/zk_mesos /etc/mesos/zk
@@ -33,18 +39,17 @@
   service: name=mesos-slave state=stopped
   ignore_errors: yes
 
-- name: prevent mesos-salve from running
+- name: prevent mesos-slave from running
   shell: echo manual | sudo tee /etc/init/mesos-slave.override
 
-- name: restart zookeper
-  service: name=zookeeper state=restarted 
+- name: start zookeper
+  service: name=zookeeper state=started enabled=yes
 
-- name: restart mesos-master
-  service: name=mesos-master state=restarted
-  # shell: sudo restart mesos-master
+- name: start mesos-master
+  service: name=mesos-master state=started enabled=yes
 
-- name: restart marathon
-  service: name=marathon state=restarted 
+- name: start marathon
+  service: name=marathon state=started enabled=yes
 
 - name: start chronos
-  service: name=chronos state=restarted enabled=yes
+  service: name=chronos state=started enabled=yes
