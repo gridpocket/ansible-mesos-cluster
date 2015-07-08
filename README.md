@@ -3,6 +3,13 @@
 ![Mesos Architecture](https://assets.digitalocean.com/articles/mesosphere/mesos_architecture.png "Mesos Architecture")
 (image from digitalocean)
 
+## Current status
+
+This recipe is a work in progress, a configuration bug needs to be fixed.  
+Symptoms:  
+  - Message: "No master is currently leading ..." in mesos interface
+  - Slaves not seen in the mesos UI
+
 ## Init Vagrant boxes and start VMs  
 
 6 boxes declared in vagrant/Vagrantfile
