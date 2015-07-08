@@ -1,0 +1,53 @@
+---
+- hosts: master
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+      - name: install mesos package
+        apt: name=mesos state=present
+      - name: install marathon package
+        apt: name=marathon state=present
+      - name: install chronos package
+        apt: name=chronos state=present
+      - name: install docker package
+        shell: sudo wget -qO- https://get.docker.com/ | sh
+      ### Configuration ###
+      - name: configure zookeeper ID
+        shell: echo 1 | sudo tee /etc/zookeeper/conf/myid
+      - name: configure containerizers
+        shell: echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+      - name: start up zookeeper
+        service: name=zookeeper state=restarted enabled=yes
+      - name: start up the mesos-master
+        service: name=mesos-master state=restarted enabled=yes
+      - name: make sure mesos-slave is running
+        service: name=mesos-slave state=restarted enabled=yes
+      - name: start marathon
+        service: name=marathon state=restarted enabled=yes
+      - name: start chronos
+        service: name=chronos state=restarted enabled=yes
+      - name: start docker
+        service: name=docker state=restarted enabled=yes
+- hosts: nodes
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+      - name: install mesos package
+        apt: name=mesos state=present
+      - name: install docker package
+        shell: sudo wget -qO- https://get.docker.com/ | sh
+      ### Configuration ###
+      - name: disable zookeeper (1/2)
+        shell: sudo service zookeeper stop
+      - name: disable zookeeper (2/2)
+        shell: sudo sh -c "echo manual > /etc/init/zookeeper.override"
+      - name: set the zookeeper master
+        shell: sed -i -e 's/localhost/192.168.33.20/g' /etc/mesos/zk
+      - name: disable mesos-master service
+        shell: sudo service mesos-master stop && sudo sh -c "echo manual > /etc/init/mesos-master.override"
+      - name: configure containerizers
+        shell: echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+      - name: make sure mesos-slave is running
+        service: name=mesos-slave state=restarted enabled=yes
+      - name: start docker
+        service: name=docker state=restarted enabled=yes

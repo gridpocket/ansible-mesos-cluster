@@ -1,0 +1,38 @@
+---
+- name: install mesos package
+  apt: name=mesos state=present
+
+- name: copy zookeeper configuration file
+  shell: cp /tmp/zk_mesos /etc/mesos/zk
+
+- name: make sure zookeper is stopped
+  service: name=zookeeper state=stopped
+  ignore_errors: yes
+
+- name: prevent zookeeper from running
+  shell: echo manual | sudo tee /etc/init/zookeeper.override
+
+- name: make sure mesos master is stopped
+  service: name=mesos-master state=stopped
+  ignore_errors: yes
+
+- name: ensure mesos master will not start on reboot
+  shell: echo manual | sudo tee /etc/init/mesos-master.override
+
+- name: set mesos slave ip
+  template: src=ip.j2 dest=/etc/mesos-slave/ip
+
+- name: set mesos slave hostname
+  template: src=hostname.j2 dest=/etc/mesos-slave/hostname
+
+- name: install docker package
+  shell: sudo wget -qO- https://get.docker.com/ | sh
+
+- name: configure containerizers
+  shell: echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
+
+- name: start docker
+  service: name=docker state=restarted enabled=yes
+
+- name: make sure mesos-slave is running
+  service: name=mesos-slave state=restarted enabled=yes
