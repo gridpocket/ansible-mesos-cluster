@@ -1,6 +1,7 @@
 # Deploy a Mesos / Marathon / Docker cluster with Ansible
 
 ![Mesos Architecture](https://assets.digitalocean.com/articles/mesosphere/mesos_architecture.png "Mesos Architecture")
+(image from digitalocean)
 
 ## Init Vagrant boxes and start VMs  
 
