@@ -74,7 +74,7 @@ note: both user's ssh password + sudo password will be requested
 
 Once the nodes are registered, the replica set can be created using the following command:
 
-    ansible-playbook -i hosts main.yml
+    ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
 
 ## License
 
