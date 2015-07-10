@@ -7,7 +7,6 @@
 
 This recipe is a work in progress, a configuration bug needs to be fixed.  
 Symptoms:  
-  - Message: "No master is currently leading ..." in mesos interface
   - Slaves not seen in the mesos UI
 
 ## Init Vagrant boxes and start VMs  
@@ -19,10 +18,15 @@ Symptoms:
 ## Typical usage with vagrant boxes
 
     1. Set ip in of the vagrant boxes in the inventory/ENVIRONMENT.ini  file
-    2. Run: ansible-playbook -i inventory/ENVIRONMENT.ini -k -u vagrant -s init.yml
-    3. Run: ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
 
-Note: other options are detailled below to bootstrap this cluster on non vagrant boxes
+    2. Run: ansible-playbook -i inventory/ENVIRONMENT.ini -k -u vagrant -s init.yml
+       Note: other options are detailled below to bootstrap this cluster on non vagrant boxes
+
+    3. Run: ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
+       Note: mesos, marathon and docker tags are defined in the tasks.
+             If only mesos (master, slave, zookeeper) needs to be ran, use the following command:  
+
+    Run: ansible-playbook -i inventory/ENVIRONMENT.ini -t mesos main.yml
 
 ## Inventory
 

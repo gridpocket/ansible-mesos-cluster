@@ -1,55 +1,92 @@
 ---
 - name: install mesos + zookeeper
-  apt: name=mesos state=latest
+  apt: name=mesos state=present
+  tags:
+    - mesos
 
 - name: install marathon
-  apt: name=marathon state=latest
+  apt: name=marathon state=present
+  tags:
+    - marathon
 
 - name: install chronos
-  apt: name=chronos state=latest
+  apt: name=chronos state=present
+  tags:
+    - chronos
 
 - name: copy zookeeper mesos configuration file
   shell: cp /tmp/zk_mesos /etc/mesos/zk
+  tags:
+    - mesos
 
 - name: copy zookeeper myid configuration file
-  template: src=zk_myid.j2 dest=/etc/zookeeper/conf/myid
+  template: src=zk_myid.j2 dest=/var/lib/zookeeper/myid
+  # template: src=zk_myid.j2 dest=/etc/zookeeper/conf/myid
+  tags:
+    - mesos
 
 - name: copy zookeeper hosts configuration
   template: src=zk_cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  tags:
+    - mesos
 
 - name: set mesos master quorum to 2
   copy: src=quorum dest=/etc/mesos-master/quorum
+  tags:
+    - mesos
 
 - name: set mesos master ip
   template: src=ip.j2 dest=/etc/mesos-master/ip
+  tags:
+    - mesos
 
 - name: set mesos master hostname
   template: src=hostname.j2 dest=/etc/mesos-master/hostname
+  tags:
+    - mesos
 
 - name: set marathon hostname
   shell: sudo mkdir -p /etc/marathon/conf && sudo cp /etc/mesos-master/hostname /etc/marathon/conf
+  tags:
+    - marathon
 
 - name: set marathon zookeeper configuration
   shell: cp /etc/mesos/zk /etc/marathon/conf/master
+  tags:
+    - marathon
 
 - name: copy zookeeper marathon configuration file
   template: src=zk_marathon.j2 dest=/etc/marathon/conf/zk
+  tags:
+    - marathon
 
 - name: stop mesos slave
   service: name=mesos-slave state=stopped
   ignore_errors: yes
+  tags:
+    - mesos
 
 - name: prevent mesos-slave from running
   shell: echo manual | sudo tee /etc/init/mesos-slave.override
+  tags:
+    - mesos
 
 - name: start zookeper
-  service: name=zookeeper state=started enabled=yes
+  service: name=zookeeper state=restarted enabled=yes
+  tags:
+    - mesos
 
 - name: start mesos-master
-  service: name=mesos-master state=started enabled=yes
+  service: name=mesos-master state=restarted enabled=yes
+  tags:
+    - mesos
 
 - name: start marathon
-  service: name=marathon state=started enabled=yes
+  service: name=marathon state=restarted enabled=yes
+  tags:
+    - marathon
 
 - name: start chronos
-  service: name=chronos state=started enabled=yes
+  service: name=chronos state=restarted enabled=yes
+  tags:
+    - chronos

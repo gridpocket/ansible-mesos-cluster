@@ -1,15 +1,25 @@
 ---
 - name: update the hosts file
   template: src=./hosts.j2 dest=/etc/hosts
+  tags:
+    - mesos
 
 - name: import Mesosphere key
   shell: sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF
+  tags:
+    - mesos
 
 - name: update sources list
   shell: DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]') && CODENAME=$(lsb_release -cs) && echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" | sudo tee /etc/apt/sources.list.d/mesosphere.list
+  tags:
+    - mesos
 
 - name: update packages
   apt: update_cache=yes cache_valid_time=3600
+  tags:
+    - mesos
 
 - name: create zk configuration file (used later on in mesos-master and mesos-slave)
   template: src=zk_mesos.j2 dest=/tmp/zk_mesos
+  tags:
+    - mesos
