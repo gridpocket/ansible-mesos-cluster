@@ -20,9 +20,11 @@ Symptoms:
     1. Set ip in of the vagrant boxes in the inventory/ENVIRONMENT.ini  file
 
     2. Run: ansible-playbook -i inventory/ENVIRONMENT.ini -k -u vagrant -s init.yml
-       Note: other options are detailled below to bootstrap this cluster on non vagrant boxes
+
+       Note: see "Nodes initialisation" below for other bootstrap options
 
     3. Run: ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
+
        Note: mesos, marathon and docker tags are defined in the tasks.
        If only mesos (master, slave, zookeeper) needs to be ran, use the following command:  
 
@@ -54,21 +56,21 @@ This first task initiate the server creating a user named mongors
 - mongors user will be given sudo right with no password needed when running sudo commands
 - current machine ssh key is copied over to the authorized_keys of the server that is beeing provisionned
 
-Several possible cases
+Depending upon the node access, several bootstrap scenario can be used:
 
-### Usage of Vagrant VM
+### - Usage of Vagrant VM
 
     ansible-playbook -i inventory/ENVIRONMENT.ini -k -u vagrant -s init.yml
 
 note: vagrant ssh password will be requested (sudo password not requested as vagrant user is authorized to sudo without any password by default)
 
-### Usage of VPS with root access
+### - Usage of VPS with root access
 
     ansible-playbook -i inventory/ENVIRONMENT.ini -k -u root init.yml
 
 note: root ssh password will be requested
 
-### Usage of a user with sudo rights
+### - Usage of a user with sudo rights
 
     ansible-playbook -i inventory/ENVIRONMENT.ini -k -K -u USER -s init.yml
 
