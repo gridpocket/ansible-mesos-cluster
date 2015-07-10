@@ -5,9 +5,19 @@
 
 ## Current status
 
-This recipe is a work in progress, a configuration bug needs to be fixed.  
-Symptoms:  
-  - Slaves not seen in the mesos UI
+This recipe is not fully functional yet.
+
+### Working part
+
+    - installation of the mesos master / zookeeper (same node used for master and zookeeper)  
+    - installation of the mesos slaves  
+    - installation of the marathon framework
+    - installation of the chronos framwework
+
+### Non working part
+
+    - deployment of task (eg: python -m SimpleHTTPServer $PORT) on the marathon interface
+      => deployment is stuck
 
 ## Init Vagrant boxes and start VMs  
 
