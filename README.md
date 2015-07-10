@@ -24,9 +24,9 @@ Symptoms:
 
     3. Run: ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
        Note: mesos, marathon and docker tags are defined in the tasks.
-             If only mesos (master, slave, zookeeper) needs to be ran, use the following command:  
+       If only mesos (master, slave, zookeeper) needs to be ran, use the following command:  
 
-    Run: ansible-playbook -i inventory/ENVIRONMENT.ini -t mesos main.yml
+       ansible-playbook -i inventory/ENVIRONMENT.ini -t mesos main.yml
 
 ## Inventory
 
