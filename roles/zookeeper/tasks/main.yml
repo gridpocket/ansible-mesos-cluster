@@ -1,0 +1,24 @@
+---
+- name: copy zookeeper hosts configuration
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+
+- name: copy zookeeper myid configuration file
+  # template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  template: src=myid.j2 dest=/etc/zookeeper/conf/myid
+
+- name: stop mesos master
+  service: name=mesos-master state=stopped
+  ignore_errors: yes
+
+- name: prevent mesos-master from running
+  shell: echo manual | sudo tee /etc/init/mesos-master.override
+
+- name: stop mesos slave
+  service: name=mesos-slave state=stopped
+  ignore_errors: yes
+
+- name: prevent mesos-slave from running
+  shell: echo manual | sudo tee /etc/init/mesos-slave.override
+
+- name: start zookeper
+  service: name=zookeeper state=restarted enabled=yes

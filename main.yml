@@ -1,11 +1,17 @@
 ---
 # This playbook deploy Mesos / Marathon / Docker stack on ubuntu hosts
 
-- hosts: all
+- hosts: zookeepers:mesos-master:mesos-slaves
   remote_user: mesos
   sudo: True
   roles:
   - role: common
+
+- hosts: zookeepers
+  remote_user: mesos
+  sudo: True
+  roles:
+  - role: zookeeper
 
 - hosts: mesos-masters
   remote_user: mesos
@@ -18,3 +24,9 @@
   sudo: True
   roles:
   - role: mesos-slave
+
+- hosts: marathons
+  remote_user: mesos
+  sudo: True
+  roles:
+  - role: marathon

@@ -4,6 +4,6 @@ clientPort=2181
 initLimit=5
 syncLimit=2
 
-{% for ip in groups['mesos-masters'] %}
+{% for ip in groups['zookeepers'] %}
 server.{{ loop.index }}={{ip}}:2888:3888
 {% endfor %}

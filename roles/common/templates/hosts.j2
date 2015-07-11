@@ -1,9 +1,0 @@
-127.0.0.1   localhost localhost.localdomain 
-::1         localhost localhost.localdomain
-
-{% for ip in groups['mesos-masters'] %}  
-{{ ip }} master{{ loop.index }}
-{% endfor %}
-{% for ip in groups['mesos-slaves'] %}  
-{{ ip }} slave{{ loop.index }}
-{% endfor %}

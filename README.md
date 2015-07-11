@@ -5,40 +5,25 @@
 
 ## Current status
 
-This recipe is not fully functional yet.
+This recipe is not fully functional yet !!!  
 
-### Working part
+When deploying a task from the marathon UI, the deployment hangs forever
 
-    - installation of the mesos master / zookeeper (same node used for master and zookeeper)  
-    - installation of the mesos slaves  
-    - installation of the marathon framework
-    - installation of the chronos framwework
 
-### Non working part
+## Quick start with Vagrant
 
-    - deployment of task (eg: python -m SimpleHTTPServer $PORT) on the marathon interface
-      => deployment is stuck
-
-## Init Vagrant boxes and start VMs  
-
-6 boxes declared in vagrant/Vagrantfile
+Vagrantfile defines 6 VMs:  
 - 3 mesos masters running mesos, marathon
 - 3 mesos slaves running docker
 
-## Typical usage with vagrant boxes
+1. vagrant up  
+=> 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) arre created  
 
-    1. Set ip in of the vagrant boxes in the inventory/ENVIRONMENT.ini  file
+2. ansible-playbook -i inventory/test.ini -k -u vagrant -s init.yml  
+=> "mesos" user (with authentication key and sudo rights) is created on each host  
 
-    2. Run: ansible-playbook -i inventory/ENVIRONMENT.ini -k -u vagrant -s init.yml
-
-       Note: see "Nodes initialisation" below for other bootstrap options
-
-    3. Run: ansible-playbook -i inventory/ENVIRONMENT.ini main.yml
-
-       Note: mesos, marathon and docker tags are defined in the tasks.
-       If only mesos (master, slave, zookeeper) needs to be ran, use the following command:  
-
-       ansible-playbook -i inventory/ENVIRONMENT.ini -t mesos main.yml
+3. ansible-playbook -i inventory/test.ini main.yml  
+=> Installation and configuration of Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
 
 ## Inventory
 
@@ -46,24 +31,30 @@ The host file defines the inventory/ENVIRONMENT.ini (mesos master and mesos slav
 
 eg:  
 
+    [zookeepers]
+    192.168.1.211
+    192.168.1.212
+    192.168.1.213
+
     [mesos-masters]
-    192.168.1.191
-    192.168.1.192
-    192.168.1.193
+    192.168.1.211
+    192.168.1.212
+    192.168.1.213
 
     [mesos-slaves]
-    192.168.1.194
-    192.168.1.195
-    192.168.1.196
+    192.168.1.214
+    192.168.1.215
+    192.168.1.216
 
-    [nodes:children]
-    mesos-masters
-    mesos-slaves
+    [marathons]
+    192.168.1.211
+    192.168.1.212
+    192.168.1.213
 
 ## Nodes initialisation
 
 This first task initiate the server creating a user named mongors
-- mongors user will be given sudo right with no password needed when running sudo commands
+- mesos user will be given sudo right with no password needed when running sudo commands
 - current machine ssh key is copied over to the authorized_keys of the server that is beeing provisionned
 
 Depending upon the node access, several bootstrap scenario can be used:

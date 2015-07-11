@@ -1,0 +1,8 @@
+---
+# Mesos package version
+# mesos_version:
+
+# Marathon package version
+# marathon_version:
+
+mesos_cluster_name: "MyCluster"
