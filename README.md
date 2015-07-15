@@ -7,8 +7,7 @@
 
 This recipe is not fully functional yet !!!  
 
-When deploying a task from the marathon UI, the deployment hangs forever
-
+When deploying a task from the marathon UI, the deployment hangs forever if mesos master is not the first one of the list (!). I'm currently digging into this bug.
 
 ## Quick start with Vagrant
 
@@ -20,6 +19,7 @@ Vagrantfile defines 6 VMs:
 => 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) arre created  
 
 2. ansible-playbook -i inventory/test.ini -k -u vagrant -s init.yml  
+=> enter "vagrant" when password is required
 => "mesos" user (with authentication key and sudo rights) is created on each host  
 
 3. ansible-playbook -i inventory/test.ini main.yml  

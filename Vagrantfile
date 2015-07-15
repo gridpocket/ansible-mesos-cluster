@@ -1,11 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# TOADD in :bridge => 'en5: Ethernet Thunderbolt'
-# TOADD in :bridge => 'en0: Wi-Fi (AirPort)'
-# 1) en5: Ethernet Thunderbolt
-# 2) en0: Wi-Fi (AirPort)
-
 Vagrant.configure(2) do |config|
   config.vm.define "master1" do |db|
     db.vm.box = "ubuntu/trusty64"
