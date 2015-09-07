@@ -15,15 +15,35 @@ Vagrantfile defines 6 VMs:
 - 3 mesos masters running mesos, marathon
 - 3 mesos slaves running docker
 
-1. vagrant up  
-=> 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) arre created  
+1. Copy your public key into roles/copy-authorized-key/files/id_rsa_ansible.pub
 
-2. ansible-playbook -i inventory/test.ini -k -u vagrant -s init.yml  
+2. Run 'vagrant up' command
+=> 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) are created  
+
+3. Run 'ansible-playbook -i inventory/test.ini -k -u vagrant -s init.yml' command
 => enter "vagrant" when password is required
 => "mesos" user (with authentication key and sudo rights) is created on each host  
 
-3. ansible-playbook -i inventory/test.ini main.yml  
-=> Installation and configuration of Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
+4. Run 'ansible-playbook -i inventory/test.ini main.yml' command
+=> Install and configure Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
+
+5. Check http://192.168.1.211:5050 (Mesos dashboard) on your browser
+Note: you may be redirected towards the actual Mesos master (if 192.168.1.211 is not the one elected)
+
+![Mesos dashboard](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/mesos_dashboard.png "Mesos dashboard")
+
+6. Check http://192.168.1.211:8080 (Marathon dashboard) on your browser
+Note: you may be redirected towards the actual Marathon master (if 192.168.1.211 is not the one elected)
+
+![Marathon dashboard](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_dashboard.png "Marathon dashboard")
+
+7. Create task within marathon dashboard
+
+![Marathon create task](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_create_task.png "Marathon create task")
+
+![Marathon task deployed](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_task_deployed.png "Marathon task deployed")
+
+![Marathon task details](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_task_details_1.png "Marathon task details")
 
 ## Inventory
 

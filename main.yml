@@ -10,12 +10,14 @@
 - hosts: zookeepers
   remote_user: mesos
   sudo: True
+  serial: 1
   roles:
   - role: zookeeper
 
 - hosts: mesos-masters
   remote_user: mesos
   sudo: True
+  serial: 1
   roles:
   - role: mesos-master
 
