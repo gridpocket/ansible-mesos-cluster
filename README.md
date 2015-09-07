@@ -27,23 +27,29 @@ Vagrantfile defines 6 VMs:
 4. Run 'ansible-playbook -i inventory/test.ini main.yml' command
 => Install and configure Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
 
-5. Check http://192.168.1.211:5050 (Mesos dashboard) on your browser
-Note: you may be redirected towards the actual Mesos master (if 192.168.1.211 is not the one elected)
+5. Check Mesos and Marathon dashboards from a browser
+- Mesos: http://192.168.1.211:5050
+- Marathon: http://192.168.1.211:8080
+
+Note: you may be redirected towards the actual master (if 192.168.1.211 is not the one elected)
 
 ![Mesos dashboard](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/mesos_dashboard.png "Mesos dashboard")
 
-6. Check http://192.168.1.211:8080 (Marathon dashboard) on your browser
-Note: you may be redirected towards the actual Marathon master (if 192.168.1.211 is not the one elected)
-
 ![Marathon dashboard](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_dashboard.png "Marathon dashboard")
 
-7. Create task within marathon dashboard
+Create task within marathon dashboard
 
 ![Marathon create task](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_create_task.png "Marathon create task")
 
 ![Marathon task deployed](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_task_deployed.png "Marathon task deployed")
 
 ![Marathon task details](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_task_details_1.png "Marathon task details")
+
+Scale task from within Marathon dashboard
+
+![Marathon scale task](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_scale_task.png "Marathon scale task")
+
+![Marathon task scaled](https://dl.dropboxusercontent.com/u/2330187/ansible-mesos-marathon/marathon_task_scaled.png "Marathon task scaled")
 
 ## Inventory
 
