@@ -11,25 +11,22 @@ When deploying a task from the marathon UI, the deployment hangs forever if meso
 
 ## Quick start with Vagrant
 
-Vagrantfile defines 6 VMs:  
-- 3 mesos masters running mesos, marathon
-- 3 mesos slaves running docker
+Vagrantfile defines 6 VMs: 3 mesos masters (running mesos/marathon) + 3 mesos slaves running docker
 
 1. Copy your public key into roles/copy-authorized-key/files/id_rsa_ansible.pub
 
-2. Run 'vagrant up' command
-=> 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) are created  
+2. Run 'vagrant up' command: 6 VMs (with IP from 192.168.1.211 to 192.168.1.216) are created  
 
 3. Run 'ansible-playbook -i inventory/test.ini -k -u vagrant -s init.yml' command
-=> enter "vagrant" when password is required
-=> "mesos" user (with authentication key and sudo rights) is created on each host  
+  - enter "vagrant" when password is required
+  - "mesos" user (with authentication key and sudo rights) is created on each host  
 
 4. Run 'ansible-playbook -i inventory/test.ini main.yml' command
-=> Install and configure Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
+  - Install and configure Zookeeper, Mesos masters, Mesos slaves (with Docker), Marathon
 
 5. Check Mesos and Marathon dashboards from a browser
-- Mesos: http://192.168.1.211:5050
-- Marathon: http://192.168.1.211:8080
+  - Mesos: http://192.168.1.211:5050
+  - Marathon: http://192.168.1.211:8080
 
 Note: you may be redirected towards the actual master (if 192.168.1.211 is not the one elected)
 
