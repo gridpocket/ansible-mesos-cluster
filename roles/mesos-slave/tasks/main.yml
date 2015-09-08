@@ -23,13 +23,16 @@
   shell: echo manual | sudo tee /etc/init/mesos-master.override
 
 - name: install docker package
-  shell: sudo wget -qO- https://get.docker.com/ | sh
+  shell: sudo curl -sSL https://get.docker.com/ | sh
+  # shell: sudo wget -qO- https://get.docker.com/ | sh
+  ignore_errors: yes
 
 - name: configure containerizers
   shell: echo 'docker,mesos' | sudo tee /etc/mesos-slave/containerizers
 
 - name: start docker
   service: name=docker state=restarted enabled=yes
+  ignore_errors: yes
 
 - name: make sure mesos-slave is running
   service: name=mesos-slave state=restarted enabled=yes

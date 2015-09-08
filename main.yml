@@ -4,6 +4,7 @@
 - hosts: zookeepers:mesos-master:mesos-slaves
   remote_user: mesos
   sudo: True
+  serial: 1
   roles:
   - role: common
 
@@ -24,11 +25,13 @@
 - hosts: mesos-slaves
   remote_user: mesos
   sudo: True
+  serial: 1
   roles:
   - role: mesos-slave
 
 - hosts: marathons
   remote_user: mesos
   sudo: True
+  serial: 1
   roles:
   - role: marathon
